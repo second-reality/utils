@@ -7,6 +7,8 @@ echo "--- create backup dir"
 mkdir -p /data/backup/system
 echo "--- backup packages list"
 dpkg --get-selections | grep -v "deinstall$"  > /data/backup/system/dpkg.list
+echo "--- backup boot"
+sudo tar -cvpf /data/backup/system/boot.tar /boot/
 echo "--- backup system"
 sudo tar --exclude=/data --one-file-system -cvpf /data/backup/system/system.tar /
 echo "--- sync fs"
