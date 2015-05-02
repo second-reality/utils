@@ -7,8 +7,8 @@ echo "--- create backup dir"
 mkdir -p /data/backup/system
 echo "--- backup packages list"
 dpkg --get-selections | grep -v "deinstall$"  > /data/backup/system/dpkg.list
-echo "--- backup user data and etc"
-sudo tar -cvpf /data/backup/system/system.tar /etc /home/user
+echo "--- backup system"
+sudo tar --exclude=/data --one-file-system -cvpf /data/backup/system/system.tar /
 echo "--- sync fs"
 sync
 echo "--- done"
