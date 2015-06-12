@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-lockscreen.sh
+/data/work/repository/utils/bin/lockscreen.sh
 sudo -n /usr/sbin/pm-suspend
