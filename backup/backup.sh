@@ -57,7 +57,7 @@ esac
 
 echo "----------------------------------------------"
 echo "running rsync"
-rsync $rsync_opt --info=progress2 ${rsync_user_opt[@]}"$src" "$dest" || die "rsync failed with code $?"
+rsync "${rsync_opt[@]}" --info=progress2 "$src" "$dest" || die "rsync failed with code $?"
 
 echo "----------------------------------------------"
 echo "sync fs"
