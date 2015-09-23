@@ -9,10 +9,13 @@ die()
 	exit 1
 }
 
-[[ $# -ne 2 ]] && die "usage: src dest"
+[[ $# -lt 2 ]] && die "usage: src dest [rsync_opt]"
 
 src="$1"
-dest="$2"
+shift
+dest="$1"
+shift
+rsync_opt=(-a -h --delete "$@")
 
 # check if param is not empty
 [[ "$src" == "" ]] && die "src is empty"
@@ -35,12 +38,11 @@ echo "backup $src to $dest"
 
 echo "----------------------------------------------"
 tmp_file=/tmp/backup$$
-rsync_opt="-a -h --delete"
 echo "call rsync to get stats"
 # run rsync in dry run to get stats of what will change
-rsync $rsync_opt -n --info=stats2 "$src" "$dest" > $tmp_file || die "rsync failed with code $?"
+rsync "${rsync_opt[@]}" -n --info=stats2 "$src" "$dest" > $tmp_file || die "rsync failed with code $?"
 # echo stats
-grep "Number" $tmp_file 
+grep "Number" $tmp_file
 grep "Total.*file"  $tmp_file
 rm $tmp_file
 
@@ -55,7 +57,7 @@ esac
 
 echo "----------------------------------------------"
 echo "running rsync"
-rsync $rsync_opt --info=progress2 "$src" "$dest" || die "rsync failed with code $?"
+rsync $rsync_opt --info=progress2 ${rsync_user_opt[@]}"$src" "$dest" || die "rsync failed with code $?"
 
 echo "----------------------------------------------"
 echo "sync fs"
