@@ -13,7 +13,7 @@ dest="$2"
 [ -d "$dest" ] && die "$dest exists"
 mkdir -p "$dest"
 
-rsync -av /var/www/www/PhotoFloat/web/ $dest/ --exclude cache/ ||
+rsync -av /var/www/www/PhotoFloat/web/ "$dest/" --exclude cache/ ||
   die "copy gallery failed"
 mkdir "$dest/cache"
 
