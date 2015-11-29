@@ -6,9 +6,11 @@ die()
   exit 1
 }
 
+pictures_dir="/var/www/public/pictures/"
+
 [ $# -ne 2 ] && die "usage: src dest"
 src="$1"
-dest="$2"
+dest="$pictures_dir/$2"
 
 [ -d "$dest" ] && die "$dest exists"
 mkdir -p "$dest"
