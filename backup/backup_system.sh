@@ -10,9 +10,7 @@ dpkg --get-selections | grep -v "deinstall$" | cut -f 1 > /data/backup/system/dp
 echo "--- backup etc"
 sudo tar -cvpf /data/backup/system/etc.tar /etc/
 echo "--- backup home"
-sudo tar -cvpf /data/backup/system/home.tar /home
-echo "--- backup web"
-sudo tar -cvpf /data/backup/system/web.tar --exclude /var/www/www/books --exclude /var/www/www/le-nez-au-vent.github.io --exclude /var/www/www/PhotoFloat/web/cache /var/www/ 
+sudo tar -cvpf /data/backup/system/home.tar /home --exclude /home/user/.steam
 echo "--- sync fs"
 sync
 echo "--- done"
