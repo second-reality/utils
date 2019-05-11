@@ -2,6 +2,6 @@
 
 while [ true ]
 do
-    ping mafreebox.freebox.fr
-    sleep 10
+    ping -c 5 mafreebox.freebox.fr
+    sleep 5 
 done
