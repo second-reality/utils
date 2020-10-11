@@ -16,5 +16,5 @@ mkdir -p $out_folder
 
 for pic in "$@"; do
   name=$(basename $pic)
-  echo convert $pic -resize 50% -quality 80% $out_folder/$name
+  echo convert \"$pic\" -resize 50% -quality 80% \"$out_folder/$name\"
 done | parallel -j$(nproc) --bar || die "error while treating pictures"
