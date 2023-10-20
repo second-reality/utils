@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-#$(dirname $(readlink -f $0))/lockscreen.sh&
+$(dirname $(readlink -f $0))/lockscreen.sh&
 
 # stop all vm
 get_vm()
