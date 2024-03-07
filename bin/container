@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+    echo "usage: docker_image [command]"
+    exit 1
+fi
+image=$1;shift
+cmd="$@"
+if [ "$cmd" == "" ]; then
+    cmd=bash
+fi
+mounts="-v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:$HOME"
+cwd="-w $(pwd)"
+env="-e DISPLAY=$DISPLAY -e HOME=$HOME"
+net="--net host"
+container=$(echo $image | sed -e 's/:/_/g' -e 's/\//_/g')_container
+
+if [ "$(podman ps -a | grep $container)" == "" ]; then
+    podman run -it --name $container $mounts $cwd $env $net $image $cmd
+else
+    podman start $container >/dev/null || true
+    podman exec -it $env $cwd $container $cmd
+fi
