@@ -14,5 +14,5 @@ while [ "$(get_vm)" != "" ]; do
   sleep 1
 done
 
-sleep 5
-sudo -n /usr/sbin/pm-suspend
+sleep 2
+systemctl suspend
