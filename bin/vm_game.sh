@@ -31,12 +31,12 @@ tcp 48010
 trap "sudo iptables-restore < $save_iptables" EXIT
 
 vm=win11
-if ! virsh --connect qemu:///system list --state-running --name | grep -q $vm
+if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
 then
     virsh --connect qemu:///system start $vm
 fi
 
-while virsh --connect qemu:///system list --state-running --name | grep -q $vm
+while [ "$(virsh --connect qemu:///system domstate $vm)" != "shut off" ]
 do
     sleep 1
 done
