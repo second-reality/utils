@@ -30,7 +30,7 @@ tcp 47989
 tcp 48010
 trap "sudo iptables-restore < $save_iptables" EXIT
 
-vm=win11
+vm=win10_gaming
 if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
 then
     virsh --connect qemu:///system start $vm
