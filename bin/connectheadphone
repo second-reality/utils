@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+connect()
+{
+    trap "pkill bluetoothctl; exit 1" INT
+    while true; do
+        if pacmd list-cards | grep -q bluez_card.38_18_4C_3E_A0_0F; then
+            echo "connected"
+            return
+        fi
+        sudo systemctl restart bluetooth.service
+        sleep 1
+        bluetoothctl --timeout 10 scan on
+        bluetoothctl --timeout 15 connect 38:18:4C:3E:A0:0F
+        echo "---------------------"
+        sleep 1
+    done
+}
+
+connect
+pacmd set-card-profile bluez_card.38_18_4C_3E_A0_0F a2dp_sink
+pactl send-message /card/bluez_card.38_18_4C_3E_A0_0F/bluez switch-codec '"ldac_sq"'

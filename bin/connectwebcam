@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+end()
+{
+    pkill droidcam-cli
+    exit 0
+}
+
+trap "end" SIGINT
+
+# https://www.dev47apps.com/droidcam/linux/
+while [ true ]; do
+    droidcam-cli 192.168.1.76 4747 |& while read line; do
+        echo "$line"
+        if echo "$line" | grep -iq error; then
+            pkill droidcam-cli
+            break
+        fi
+    done
+    sleep 1
+    echo '-------------------------'
+done
+
