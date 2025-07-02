@@ -2,4 +2,5 @@
 
 script_dir=$(dirname $(readlink -f $0))
 $script_dir/connectheadphone
+sleep 1
 pacmd set-card-profile bluez_card.38_18_4C_3E_A0_0F handsfree_head_unit
