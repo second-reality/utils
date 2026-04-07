@@ -21,3 +21,4 @@ done
 
 sleep 2
 systemctl suspend
+setxkbmap us qwerty-fr
