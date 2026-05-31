@@ -23,14 +23,14 @@ save_iptables=/tmp/save.iptables
 vm=win10_gaming
 
 run_once() {
-    sudo iptables-save > $save_iptables
-    udp 47998
-    udp 47999
-    udp 48000
-    tcp 47984
-    tcp 47989
-    tcp 48010
-    trap "sudo iptables-restore < $save_iptables" EXIT
+    #sudo iptables-save > $save_iptables
+    #udp 47998
+    #udp 47999
+    #udp 48000
+    #tcp 47984
+    #tcp 47989
+    #tcp 48010
+    #trap "sudo iptables-restore < $save_iptables" EXIT
 
     if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
     then
