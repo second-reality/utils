@@ -20,35 +20,48 @@ tcp()
 }
 
 save_iptables=/tmp/save.iptables
-
-sudo iptables-save > $save_iptables
-udp 47998
-udp 47999
-udp 48000
-tcp 47984
-tcp 47989
-tcp 48010
-trap "sudo iptables-restore < $save_iptables" EXIT
-
 vm=win10_gaming
-if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
-then
-    virsh --connect qemu:///system start $vm
-    sleep 5
-fi
 
-if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]
-then
-    virsh --connect qemu:///system dompmwakeup $vm
-    sleep 5
-fi
+run_once() {
+    sudo iptables-save > $save_iptables
+    udp 47998
+    udp 47999
+    udp 48000
+    tcp 47984
+    tcp 47989
+    tcp 48010
+    trap "sudo iptables-restore < $save_iptables" EXIT
+
+    if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
+    then
+        virsh --connect qemu:///system start $vm
+        sleep 5
+    fi
+
+    if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]
+    then
+        virsh --connect qemu:///system dompmwakeup $vm
+        sleep 5
+    fi
+
+    while true; do
+        if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]; then
+            break
+        fi
+        if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]; then
+           break
+        fi
+        sleep 1
+    done
+}
+
+run_once
 
 while true; do
-    if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]; then
-        exit 0
-    fi
+    systemctl suspend
+    sleep 5
     if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]; then
-        exit 0
+        break
     fi
-    sleep 1
+    run_once
 done
