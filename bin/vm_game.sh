@@ -34,9 +34,21 @@ vm=win10_gaming
 if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]
 then
     virsh --connect qemu:///system start $vm
+    sleep 5
 fi
 
-while [ "$(virsh --connect qemu:///system domstate $vm)" != "shut off" ]
-do
+if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]
+then
+    virsh --connect qemu:///system dompmwakeup $vm
+    sleep 5
+fi
+
+while true; do
+    if [ "$(virsh --connect qemu:///system domstate $vm)" == "pmsuspended" ]; then
+        exit 0
+    fi
+    if [ "$(virsh --connect qemu:///system domstate $vm)" == "shut off" ]; then
+        exit 0
+    fi
     sleep 1
 done
