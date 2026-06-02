@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+$(dirname $(readlink -f $0))/lockscreen.sh&
+
 vm=win10_gaming
 if [ "$(virsh --connect qemu:///system domstate $vm)" == "running" ]
 then
@@ -9,8 +11,6 @@ then
     sleep 5
 fi
 
-$(dirname $(readlink -f $0))/lockscreen.sh&
-
-sleep 2
+sleep 1
 systemctl suspend
 setxkbmap us qwerty-fr
