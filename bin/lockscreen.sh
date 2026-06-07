@@ -3,7 +3,7 @@ set -e
 
 function screen_off()
 {
-  while [ 1 ]
+  while true
   do
     sleep 10
     xset dpms force off
