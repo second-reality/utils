@@ -25,7 +25,8 @@ screen_on()
 }
 
 screen_on&
-sleep 1
-if [ "$resume_vm" -eq 1 ]; then
-    virsh --connect qemu:///system dompmwakeup $vm
-fi
+sleep 10
+#sleep 1
+#if [ "$resume_vm" -eq 1 ]; then
+#    virsh --connect qemu:///system dompmwakeup $vm
+#fi
