@@ -13,6 +13,7 @@ then
     sleep 5
 fi
 
+sleep 1
 systemctl suspend
 setxkbmap us qwerty-fr
 
